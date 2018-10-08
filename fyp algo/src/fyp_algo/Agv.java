@@ -1,5 +1,6 @@
 package fyp_algo;
 import java.util.ArrayList;
+//import java.util.LinkedList; 
 import java.util.concurrent.TimeUnit;
 import java.util.Random;
 
@@ -15,7 +16,8 @@ public class Agv {
 	private String controlPt = "null"; 
 	private boolean idle = true; 
 	
-	private ArrayList<Containers> agv_tasks = new ArrayList<>();	//list of jobs 
+	private ArrayList<Containers> task_list = new ArrayList<>();	//list of jobs 
+	private int total_cost; //total travel distance to complete all tasks in the task_list 
 	
 	public Agv(int agv_num){
 		this.agv_num = agv_num;
@@ -89,6 +91,18 @@ public class Agv {
 	
 	public int getDesty(){
 		return dest_y;
+	}
+	
+	public ArrayList<Containers> getTaskList(){
+		return task_list; 
+	}
+	
+	public int getTotalCost(){
+		return total_cost;
+	}
+	
+	public void updateTotalCost(int x){
+		total_cost += x; 
 	}
 	
 	public void setCtrlPt(int y, int x){

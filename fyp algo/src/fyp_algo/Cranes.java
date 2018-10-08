@@ -1,5 +1,6 @@
 package fyp_algo;
 import fyp_algo.Constants.*;
+import java.util.PriorityQueue;
 
 public class Cranes {
 	private final int y;
@@ -7,6 +8,7 @@ public class Cranes {
 	private String craneType;
 	private boolean pickUp;
 	private boolean dropOff;
+	private PriorityQueue<Containers> local_p_queue = new PriorityQueue<Containers>();
 	
 	public Cranes(int y, int x, String craneType){
 		this.y = y;
@@ -36,5 +38,9 @@ public class Cranes {
 	
 	public boolean getDropOff(){
 		return dropOff;
+	}
+	
+	public PriorityQueue<Containers> getPriorityQueue(){
+		return local_p_queue; 
 	}
 }

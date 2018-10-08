@@ -1,0 +1,59 @@
+package fyp_algo;
+
+import java.util.*;
+
+public class Draft_greedy {
+	/* AGV will be located initially at any of the control points
+	 * 
+	 * 
+	 * */
+
+	
+	//global priority queue for all containers (considers pick up points)
+	public static PriorityQueue<Containers> q_priority = new PriorityQueue<Containers>();
+	
+	//priority queue at each pick up points (considers drop off points) 
+	public PriorityQueue<Containers> q_yc1 = new PriorityQueue<Containers>();
+	public PriorityQueue<Containers> q_yc2 = new PriorityQueue<Containers>();
+	public PriorityQueue<Containers> q_yc3 = new PriorityQueue<Containers>();
+	public PriorityQueue<Containers> q_yc4 = new PriorityQueue<Containers>();
+	public PriorityQueue<Containers> q_qc_unload  = new PriorityQueue<Containers>();
+	
+	//there are 4 agvs in the system for now 
+	public static Agv agv1, agv2, agv3, agv4;
+
+	public Draft_greedy(){
+		//BFS, distance depends on the distance from the pick up location to agv
+		//get the first item in the global priority queue
+		
+		
+		//first, populate the priority queue at pick up points 
+		Iterator i = q_priority.iterator();
+		while(i.hasNext()){
+			Containers c = i.next();	//get the next item, do not remove them from the global queue
+			pickup = c.getPickUpPoint();
+			switch(pickup){
+			case yc1: q_yc1.add(c); break;
+			case yc1: q_yc2.add(c); break;
+			case yc1: q_yc3.add(c); break;
+			case yc1: q_yc4.add(c); break;
+			case yc1: q_qc_unload.add(c); break;
+			default: break;
+			}
+		}
+		
+		//schedule tasks to vehicles according to the distance
+		while(!q_priority.isEmpty() ){
+			Containers c = q_priority.poll();
+			pickup = c.getPickUpPoint(); 
+			
+			//calculate traveling time of each agv to pick up point
+			//assign task to agv with the shortest travel time 
+			//agv travel time = travel time to current drop off + travel time to next pickup 
+			
+			
+			
+		}
+		
+	}
+}

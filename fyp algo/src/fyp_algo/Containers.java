@@ -12,6 +12,9 @@ public class Containers {
 	private int dropOffx;
 	private int dropOffy;
 	
+	private Cranes pickUpCrane;
+	private Cranes dropOffCrane;
+	
 	private int cIndex;
 	
 	public Containers(int cIndex){
@@ -96,6 +99,14 @@ public class Containers {
 	
 	public int getDropOffy(){
 		return this.dropOffy;
+	}
+	
+	public Cranes getPickUpPoint(){
+		return pickUpCrane;
+	}
+	
+	public Cranes getDropOffPoint(){
+		return dropOffCrane;
 	}
 
 }
