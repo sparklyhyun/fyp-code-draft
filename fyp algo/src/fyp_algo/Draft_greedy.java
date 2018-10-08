@@ -88,7 +88,7 @@ public class Draft_greedy {
 			int minValue = 0;
 			for(int j=0; j<4; j++){
 				Agv agv = agv_list.get(j);
-				agv_travel_time[j] = calculateTravelTime(agv, pickup); 
+				agv_travel_time[j] = calculateTravelTime_Real(agv, pickup); 
 			}
 			
 			//simple comparison of travel time 
@@ -117,6 +117,7 @@ public class Draft_greedy {
 	
 	public int calculateTravelTime_Real(Agv agv, Cranes pickUp){
 		//calculate the travel time in real time, called once an agv goes idle 
-		int travelTime = 
+		//agv.getDistLeft = distance(travel time) left until current drop off 
+		int travelTime = agv.getDistLeft() + agv.getTravelTime(pickUp);
 	}
 }
