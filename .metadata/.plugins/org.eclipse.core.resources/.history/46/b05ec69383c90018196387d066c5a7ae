@@ -1,0 +1,60 @@
+package fyp_algo;
+
+import java.util.ArrayList;
+
+public class Main_test {
+	public static Agv agv1, agv2, agv3, agv4;
+	public static ArrayList<Containers> containers = new ArrayList<>();	//main list of containers, priority queue
+	
+	//list of containers starting from each control point 
+	public static ArrayList<Containers> q_yc1 = new ArrayList<>();
+	public static ArrayList<Containers> q_yc2 = new ArrayList<>();
+	public static ArrayList<Containers> q_yc3 = new ArrayList<>();
+	public static ArrayList<Containers> q_yc4 = new ArrayList<>();
+	public static ArrayList<Containers> q_qc_unload = new ArrayList<>();
+	
+	//list of idle agv (can be changed anytime)
+	public static ArrayList<Agv> idleAgv = new ArrayList<>();
+	
+	public static int containerNo = 50; //number of containers for now
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// initialize agv
+		agv1 = new Agv(1);
+		agv2 = new Agv(2);
+		agv3 = new Agv(3);
+		agv4 = new Agv(4);
+
+		//generate containers and put in the containers queue
+		for(int i=0; i<containerNo; i++){
+			containers.add(new Containers(i));
+		}
+		
+		//iterate through containers, put the containers into correct queues
+		distribute_containers();
+		
+		
+		/*
+		 * 1. start with agv1, find 
+		 * 
+		 */
+		
+
+	}
+	
+	public static void distribute_containers(){
+		for(int i=0; i<containers.size(); i++){
+			Constants.CONTROL_PTS pickUpPt = containers.get(i).getPickUp();
+			switch(pickUpPt){
+			case YC1: q_yc1.add(containers.get(i));
+			case YC2: q_yc2.add(containers.get(i));
+			case YC3: q_yc3.add(containers.get(i));
+			case YC4: q_yc4.add(containers.get(i));
+			case QC_UNLOAD: q_qc_unload.add(containers.get(i));
+			default: ;  
+			}
+		}
+	}
+
+}

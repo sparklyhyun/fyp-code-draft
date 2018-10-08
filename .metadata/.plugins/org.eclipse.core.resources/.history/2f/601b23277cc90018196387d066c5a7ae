@@ -1,0 +1,65 @@
+package fyp_algo;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import fyp_algo.Constants.CONTROL_PTS;
+
+public class Agv {
+	private int agv_num;	//index of agv
+	private Constants.CONTROL_PTS agv_pos;	//position of agv - which control point is it at?
+	private ArrayList<Containers> agv_tasks;	//list of jobs?
+	
+	public Agv(int agv_num){
+		this.agv_num = agv_num;
+		initPos();
+		
+	}
+	
+	private void initPos(){
+		//generate initial pos (random among all the control points) 
+		Random rand = null;
+		int max = 11;
+		int min = 0;
+		int randomPos = rand.nextInt((max - min)+1) + min;
+		if(Constants.INIT_AGV_POS[randomPos] == 0){
+			Constants.INIT_AGV_POS[randomPos] = 1;
+			agv_pos = index_ctrl_pt(randomPos);
+			return;
+		}else{
+			initPos();	//calculate random again
+		}
+	}
+	
+	private Constants.CONTROL_PTS index_ctrl_pt(int x){
+		switch(x){
+		case 0: return Constants.CONTROL_PTS.YC1;
+		case 1:	return Constants.CONTROL_PTS.TURN1;
+		case 2: return Constants.CONTROL_PTS.YC2;
+		case 3: return Constants.CONTROL_PTS.TURN2;
+		case 4: return Constants.CONTROL_PTS.YC3;
+		case 5:	return Constants.CONTROL_PTS.TURN3;
+		case 6: return Constants.CONTROL_PTS.YC4;
+		case 7: return Constants.CONTROL_PTS.POINT3;
+		case 8: return Constants.CONTROL_PTS.QC_LOAD;
+		case 9:	return Constants.CONTROL_PTS.POINT2;
+		case 10: return Constants.CONTROL_PTS.POINT1;
+		case 11: return Constants.CONTROL_PTS.QC_UNLOAD;
+		default: return Constants.CONTROL_PTS.YC1; //default value 
+		}
+	}
+	
+	public void setAgvPos(Constants.CONTROL_PTS p){
+		agv_pos = p;
+	}
+	
+	public int getAgvNum(){
+		return this.agv_num;
+	}
+	
+	public Constants.CONTROL_PTS getAgvPos(){
+		return this.agv_pos;
+	}
+	
+
+}

@@ -1,0 +1,76 @@
+package fyp_algo;
+import java.util.Random;
+
+public class Containers {
+	//type of container (loading or unloading)
+	private String cType; //randomly choose between loading or unloading 
+	private Constants.CONTROL_PTS cPickUp; //container position, which pick up location
+	private int cPickUpIndex;	//pickup cannot be the same as dropoff
+	private Constants.CONTROL_PTS cDropOff;	//which drop off location
+	
+	public Containers(){
+		//randomly choose container type
+		this.cType = Constants.LOADTYPE[new Random().nextInt(Constants.LOADTYPE.length)];
+		
+		//randomly generate drop off & pick up
+		
+		if(this.cType.equals("loading")){
+			init_pickUp(true);
+			init_dropOff(true);
+		}else{
+			init_pickUp(false);
+			init_dropOff(false);
+		}
+		
+	}
+	
+	private Constants.CONTROL_PTS init_pickUp(boolean loading){
+		//YC1, 2, 3, 4, QC_UNLOAD, randomly generate 
+		//if loading, do not pick up from unload qc
+		Random rand = null; 
+		int max = 4;
+		int min = 1;
+		int randomPos = rand.nextInt((max - min)+1) + min;
+		cPickUpIndex = randomPos;
+		if(loading == false){
+			return Constants.CONTROL_PTS.QC_UNLOAD;
+		}else{
+			switch(randomPos){
+			case 1: return Constants.CONTROL_PTS.YC1;
+			case 2: return Constants.CONTROL_PTS.YC2;
+			case 3: return Constants.CONTROL_PTS.YC3;
+			case 4: return Constants.CONTROL_PTS.YC4;
+			default: return Constants.CONTROL_PTS.YC1;
+			}
+		}
+		
+		
+	}
+	
+	private Constants.CONTROL_PTS init_dropOff(boolean loading){
+		//YC1, 2, 3, 4, QC_LOAD, randomly generate 
+		if(loading == true){
+			return Constants.CONTROL_PTS.QC_LOAD;
+		}else{
+			Random rand = null; 
+			int max = 4;
+			int min = 1;
+			int randomPos = rand.nextInt((max - min)+1) + min;
+			switch(randomPos){
+			case 1: return Constants.CONTROL_PTS.YC1;
+			case 2: return Constants.CONTROL_PTS.YC2;
+			case 3: return Constants.CONTROL_PTS.YC3;
+			case 4: return Constants.CONTROL_PTS.YC4;
+			default: return Constants.CONTROL_PTS.YC1;
+			}
+			}
+		}
+		
+		
+		
+		
+	}
+	
+	
+
+}

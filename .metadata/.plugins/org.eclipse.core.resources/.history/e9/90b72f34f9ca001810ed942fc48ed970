@@ -1,0 +1,17 @@
+package fyp_algo;
+
+import java.util.ArrayList;
+
+public class Draft_greedy {
+	
+	private ArrayList<Agv> agvList = new ArrayList<Agv>(); //contains 4 agv
+	private ArrayList<Containers> containers = new ArrayList<Containers>(); //contains list of jobs
+	
+	//work lists
+	
+	
+	public Draft_greedy(){
+		
+		
+	}
+}

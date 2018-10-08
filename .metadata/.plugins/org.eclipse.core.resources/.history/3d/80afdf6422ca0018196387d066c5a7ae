@@ -1,0 +1,139 @@
+package fyp_algo;
+
+import java.util.ArrayList;
+
+import fyp_algo.Constants.*;
+
+public class Main_test {
+	public static Agv agv1, agv2, agv3, agv4;
+	public static ArrayList<Containers> containers = new ArrayList<>();	//main list of containers, priority queue
+	public static Cranes yc1, yc2, yc3, yc4, qc_load, qc_unload;
+	
+	//list of containers starting from each control point 
+	public static ArrayList<Containers> q_yc1 = new ArrayList<>();
+	public static ArrayList<Containers> q_yc2 = new ArrayList<>();
+	public static ArrayList<Containers> q_yc3 = new ArrayList<>();
+	public static ArrayList<Containers> q_yc4 = new ArrayList<>();
+	public static ArrayList<Containers> q_qc_unload = new ArrayList<>();
+	
+	//list of idle agv (can be changed anytime)
+	public static ArrayList<Agv> idleAgv = new ArrayList<>();
+	
+	public static int containerNo = 50; //number of containers for now
+	
+
+
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// initialize agv
+		agv1 = new Agv(1);
+		agv2 = new Agv(2);
+		agv3 = new Agv(3);
+		agv4 = new Agv(4);
+		System.out.println("agv1 position, y: " + agv1.getAgvy() + " x: " + agv1.getAgvx());
+		System.out.println("agv2 position, y: " + agv2.getAgvy() + " x: " + agv2.getAgvx());
+		System.out.println("agv3 position, y: " + agv3.getAgvy() + " x: " + agv3.getAgvx());
+		System.out.println("agv4 position, y: " + agv4.getAgvy() + " x: " + agv4.getAgvx());
+		
+		
+		//put agvs in the idle queue
+		idleAgv.add(agv1);
+		idleAgv.add(agv2);
+		idleAgv.add(agv3);
+		idleAgv.add(agv4);
+
+		//generate containers and put in the containers queue
+		for(int i=0; i<containerNo; i++){
+			containers.add(new Containers(i));
+		}
+		
+		//initialize the cranes 
+		yc1 = new Cranes(1, 0,"YC1");
+		yc2 = new Cranes(1, 1, "YC2");
+		yc3 = new Cranes(1, 2, "YC3");
+		yc4 = new Cranes(1, 3,"YC4");
+		qc_load = new Cranes(0, 2, "QC_LOAD");
+		qc_unload = new Cranes(0, 0, "QC_UNLOAD");
+		
+		System.out.println("yc1 type:" + yc1.getCraneType());
+		System.out.println("yc2 type:" + yc2.getCraneType());
+		System.out.println("yc3 type:" + yc3.getCraneType());
+		System.out.println("yc4 type:" + yc4.getCraneType());
+		System.out.println("qc_load type:" + qc_load.getCraneType());
+		System.out.println("qc_unload type:" + qc_unload.getCraneType());
+		
+		
+		//iterate through containers, put the containers into correct queues
+		distribute_containers();
+		
+		System.out.print("yc1 q: ");
+		queue_print(q_yc1);
+		
+		System.out.print("\nyc2 q: ");
+		queue_print(q_yc2);
+		
+		System.out.print("\nyc3 q: ");
+		queue_print(q_yc3);
+		
+		System.out.print("\nyc4 q: ");
+		queue_print(q_yc4);
+		
+		System.out.print("\nunloading q: ");
+		queue_print(q_qc_unload);
+		
+
+		
+		/*
+		 * 1. start with container in containers queue, find the agv that is the nearest to it.
+		 * 		1.1. remove the container from priority queue, assign to agv task list
+		 * 		1.2. remove container from control pt queue 
+		 * 		1.2. set agv idle = false
+		 * 		1.3. remove that agv from idle list
+		 * 		1.4. calculate movement cost (each movement = 1) 
+		 * 
+		 */
+		
+
+	}
+	
+	
+	public static void distribute_containers(){
+		for(int i=0; i<containers.size(); i++){
+			int pickUpx = containers.get(i).getPickUpx();
+			int pickUpy = containers.get(i).getPickUpy();
+			if(pickUpy == 0){
+				q_qc_unload.add(containers.get(i));
+			}else{
+				switch(pickUpx){
+				case 0: q_yc1.add(containers.get(i)); break;
+				case 1: q_yc2.add(containers.get(i)); break;
+				case 2: q_yc3.add(containers.get(i)); break;
+				case 3: q_yc4.add(containers.get(i)); break;
+				default: break;
+				}
+			}
+		}
+	}
+	
+	public static void queue_print(ArrayList<Containers> c){
+		for(int i=0; i<c.size(); i++){
+			System.out.print(c.get(i).getCtype() + " " + c.get(i).getIndex() + " " + c.get(i).getPickUpx() + ", ");
+		}
+	}
+	/*
+	public static void findNeareatAgv(){
+		Containers c = containers.get(0); 	//get the first in the priority queue 
+		Agv agv;
+		CONTROL_PTS c_pos = c.getPickUp();
+		CONTROL_PTS agv_pos;
+		int[] distance = new int[4];	//stores distance of each agv from the container 
+		
+		for(int i=0; i<idleAgv.size(); i++){
+			agv = idleAgv.get(i);
+			agv.getAgvPos();
+		}
+	}
+	*/
+
+}

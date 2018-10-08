@@ -1,0 +1,91 @@
+package fyp_algo;
+import java.util.Random;
+
+import fyp_algo.Constants.*;
+
+public class Containers {
+	//type of container (loading or unloading)
+	private String cType; //randomly choose between loading or unloading 
+	private CONTROL_PTS cPickUp; //container position, which pick up location
+	private CONTROL_PTS cDropOff;	//which drop off location
+	private int cIndex;
+	
+	public Containers(int cIndex){
+		//assign index (priority?)
+		this.cIndex = cIndex;
+		
+		//randomly choose container type
+		this.cType = Constants.LOADTYPE[new Random().nextInt(Constants.LOADTYPE.length)];
+		
+		//randomly generate drop off & pick up
+		if(this.cType.equals("loading")){
+			//if loading - pickup : yc1, 2, 3, 4, dropoff: qc_load
+			//if unloading - pickup: qc_unload, dropoff: yc1, 2, 3, 4
+			this.cPickUp = init_pickUp(true);
+			this.cDropOff = init_dropOff(true);
+		}else{
+			this.cPickUp = init_pickUp(false);
+			this.cDropOff = init_dropOff(false);
+		}
+	}
+	
+	private CONTROL_PTS init_pickUp(boolean loading){
+		//YC1, 2, 3, 4, QC_UNLOAD, randomly generate 
+		//if loading, do not pick up from unload qc
+		if(loading == false){
+			return CONTROL_PTS.QC_UNLOAD;
+		}else{
+			Random rand = null; 
+			int max = 4;
+			int min = 1;
+			int randomPos = rand.nextInt((max - min)+1) + min;
+			switch(randomPos){
+			case 1: return CONTROL_PTS.YC1;
+			case 2: return CONTROL_PTS.YC2;
+			case 3: return CONTROL_PTS.YC3;
+			case 4: return CONTROL_PTS.YC4;
+			default: return CONTROL_PTS.YC1;
+			}
+		}
+	}
+	
+	private CONTROL_PTS init_dropOff(boolean loading){
+		//YC1, 2, 3, 4, QC_LOAD, randomly generate 
+		if(loading == true){
+			return CONTROL_PTS.QC_LOAD;
+		}else{
+			Random rand = null; 
+			int max = 4;
+			int min = 1;
+			int randomPos = rand.nextInt((max - min)+1) + min;
+			switch(randomPos){
+			case 1: return CONTROL_PTS.YC1;
+			case 2: return CONTROL_PTS.YC2;
+			case 3: return CONTROL_PTS.YC3;
+			case 4: return CONTROL_PTS.YC4;
+			default: return CONTROL_PTS.YC1;
+			}
+			}
+		}
+	
+	public int getIndex(){
+		return cIndex; 
+	}
+	
+	public CONTROL_PTS getPickUp(){
+		return cPickUp;
+	}
+		
+	public CONTROL_PTS getDropOff(){
+		return cDropOff;
+	}	
+	
+	public boolean isTopRow(){
+		if((this.cPickUp == CONTROL_PTS.QC_LOAD) || (this.cPickUp ==  CONTROL_PTS.QC_UNLOAD)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+}

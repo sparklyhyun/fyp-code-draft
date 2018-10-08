@@ -1,0 +1,73 @@
+package fyp_algo;
+
+import java.util.ArrayList;
+
+public class Constants {
+	public static final int AGV_NO = 4;
+	public static String[] LOADTYPE = {"loading", "unloading"};  
+	
+	public enum CONTROL_PTS{ 
+		YC1, TURN1, YC2, TURN2, YC3, TURN3, YC4, //bottom row
+		POINT3, QC_LOAD, POINT2, POINT1, QC_UNLOAD; //top row
+		//QC_LOAD - for loading only, QC_UNLOAD - for unloading only
+		//YC1, 2, 3, 4 - either loading or unloading 
+		//TURN1, 2, 3 - can choose to go up or straight
+		//POINT1 2, 3 - destination point after turn 
+		
+		public CONTROL_PTS next_top(CONTROL_PTS current_pt){  
+			//top row - point3, qc_load, point2, point1, qc_unload
+			//next destination, only can travel in one direction
+			if(current_pt == QC_UNLOAD){
+				return CONTROL_PTS.YC1;
+			}else{
+				return values()[(current_pt.ordinal()+1)];
+			}
+		}
+		
+		public CONTROL_PTS next_yc(CONTROL_PTS current_pt){
+			//bottom row, yc only - yc1, yc2, yc3, yc4
+			if(current_pt == YC1 || current_pt == YC2 || current_pt == YC3){
+				return values()[(current_pt.ordinal()+1)];
+			}else{
+				return CONTROL_PTS.POINT3;}
+		}
+			
+		public CONTROL_PTS next_turn(CONTROL_PTS current_pt, boolean turn){
+			//bottom row, turn points only - turn1, 2, 3
+			//if turn == true, turn (to points), if not, go straight
+			if(!turn){
+				return values()[(current_pt.ordinal()+1)]; 
+			}else{
+				if(current_pt == TURN1){
+					return CONTROL_PTS.POINT1;
+				}else if(current_pt == TURN2){
+					return CONTROL_PTS.POINT2;
+				}else{
+					return CONTROL_PTS.POINT3;
+				}
+				
+			}
+		}
+			
+		}
+		
+	}
+	
+	//container position fixed at quay crane & yard crane (they are the boundary points 
+	/*
+	public static final int QC1_X = 0;
+	public static final int QC1_Y = 0;
+	public static final int QC2_X = 0;
+	public static final int QC2_y = 0;
+	
+	public static final int YC1_X = 0;
+	public static final int YC1_Y = 0;
+	public static final int YC2_X = 0;
+	public static final int YC2_Y = 0;
+	public static final int YC3_X = 0;
+	public static final int YC3_Y = 0;
+	public static final int YC4_X = 0;
+	public static final int YC4_Y = 0;
+	*/
+	
+}

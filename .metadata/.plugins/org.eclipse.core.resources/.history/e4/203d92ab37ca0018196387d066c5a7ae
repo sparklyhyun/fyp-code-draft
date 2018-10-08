@@ -1,0 +1,157 @@
+package fyp_algo;
+import java.util.ArrayList;
+import java.util.Random;
+
+import fyp_algo.Constants.*;
+
+public class Agv {
+	private int agv_num;	//index of agv
+	private int agv_X;
+	private int agv_Y;
+	private int drop_x;	//store drop off point of the container it is carrying 
+	private int drop_y; 
+	
+	private String controlPt; 
+	private boolean idle = true; 
+	
+	private ArrayList<Containers> agv_tasks = new ArrayList<>();	//list of jobs 
+	
+	public Agv(int agv_num){
+		this.agv_num = agv_num;
+		initPos();
+		setCtrlPt(this.agv_Y, this.agv_X);
+	}
+	
+	private void initPos(){
+		//generate initial pos (random among all the control points) 
+		Random rand = new Random();
+		int min = 0;
+		int randomPosX = rand.nextInt(Constants.MAX_X);
+		int randomPosY = rand.nextInt(Constants.MAX_Y);
+		if(Constants.AGV_POS[randomPosY][randomPosX] == 0){
+			Constants.AGV_POS[randomPosY][randomPosX] = 1;
+			this.agv_Y = randomPosY;
+			this.agv_X = randomPosX;
+			return;
+		}else{
+			initPos();	//calculate random again
+		}
+	}
+	
+	
+	public void setAgvx(int x){
+		this.agv_X = x;
+	}
+	
+	public void setAgvy(int y){
+		this.agv_Y = y;
+	}
+	
+	public void setIdle(boolean idle){
+		this.idle = idle;
+	}
+	
+	public void setCtrlPt(String ctrl){
+		this.controlPt = ctrl;
+	}
+	
+	public void setDropy(int y){
+		this.drop_y = y;
+	}
+	
+	public void setDropx(int x){
+		this.drop_x = x;
+	}
+	
+	public int getAgvNum(){
+		return this.agv_num;
+	}
+	
+	public int getAgvx(){
+		return this.agv_X;
+	}
+	public int getAgvy(){
+		return this.agv_Y;
+	}
+	
+	public boolean getIdle(){
+		return idle;
+	}
+	
+	public String getCtrlPt(){
+		return controlPt;
+	}
+	
+	public int getDropx(){
+		return drop_x;
+	}
+	
+	public int getDropy(){
+		return drop_y;
+	}
+	
+	public void setCtrlPt(int y, int x){
+		//CRANETYPE = {"YC1", "YC2", "YC3", "YC4", "QC_LOAD", "QC_UNLOAD"}
+		if(y == 0){
+			if(x == 0){
+				this.controlPt = Constants.CRANETYPE[5]; //qc_unload
+			}else if(x == 2){
+				this.controlPt = Constants.CRANETYPE[4]; //qc_load
+			}
+		}else{
+			switch(x){
+			case 0: this.controlPt = Constants.CRANETYPE[0]; break;
+			case 1: this.controlPt = Constants.CRANETYPE[1]; break;
+			case 2: this.controlPt = Constants.CRANETYPE[2]; break;
+			case 3: this.controlPt = Constants.CRANETYPE[3]; break;
+			default: break; 
+			}
+		}
+	}
+	
+	public void agvMove(){
+		//if y = 0, only can x--
+		//if y = 1, can x++, y++(but cost is 2) 
+		//if y = 0 && x = 0, can y-- 
+	}
+	
+	
+	
+	
+	
+
+	/*
+	public boolean isTopRow(){
+		if((this.agv_pos == CONTROL_PTS.QC_LOAD) || (this.agv_pos ==  CONTROL_PTS.QC_UNLOAD)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
+	public int computeDist(Containers c){
+		//compute dist btw Container & this.agv_pos 
+		int distance = 0;
+		CONTROL_PTS c_pos = c.getPickUp();
+		if(c_pos == this.agv_pos){
+			return 0;
+		}else{
+			//next move, distance + 1
+		}
+		
+	}
+	
+	public void nextPos(CONTROL_PTS p){
+		
+	}
+	*/
+
+	/*
+	public int innerComputeDist(Constants.CONTROL_PTS a, Constants.CONTROL_PTS c){
+		//agv must travel to container from its original position
+		
+	}*/
+	
+
+}

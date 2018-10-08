@@ -1,0 +1,33 @@
+package fyp_algo;
+
+import java.util.ArrayList;
+
+public class Constants {
+	public static final int AGV_NO = 4;
+	public static String[] LOADTYPE = {"loading", "unloading"}; 
+	
+	public enum UNLOAD_CONTAINER{ 
+		YC1, TURN1, YC2, TURN2, YC3, TURN3, YC4, POINT3, QC_LOAD, POINT2, POINT1, QC_UNLOAD
+		//QC1 - for unloading only
+		//YC1, 2, 3, 4 - either loading or unloading 
+		
+	}
+	
+	//container position fixed at quay crane & yard crane (they are the boundary points 
+	/*
+	public static final int QC1_X = 0;
+	public static final int QC1_Y = 0;
+	public static final int QC2_X = 0;
+	public static final int QC2_y = 0;
+	
+	public static final int YC1_X = 0;
+	public static final int YC1_Y = 0;
+	public static final int YC2_X = 0;
+	public static final int YC2_Y = 0;
+	public static final int YC3_X = 0;
+	public static final int YC3_Y = 0;
+	public static final int YC4_X = 0;
+	public static final int YC4_Y = 0;
+	*/
+	
+}

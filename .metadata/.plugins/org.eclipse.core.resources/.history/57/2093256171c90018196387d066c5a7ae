@@ -1,0 +1,19 @@
+package fyp_algo;
+import java.util.Random;
+
+public class Containers {
+	//type of container (loading or unloading)
+	private String cType; //randomly choose between loading or unloading 
+	private Constants.CONTROL_PTS cPickUp; //container position, which pick up location
+	private Constants.CONTROL_PTS cDropOff;	//which drop off location
+	
+	public Containers(){
+		//randomly choose container type
+		this.cType = Constants.LOADTYPE[new Random().nextInt(Constants.LOADTYPE.length)];
+		
+		//randomly generate drop off & pick up
+	}
+	
+	
+
+}

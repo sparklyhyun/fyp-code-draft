@@ -1,0 +1,24 @@
+package fyp_algo;
+
+import java.util.ArrayList;
+
+public class Draft_greedy {
+	
+	private ArrayList<Agv> agvList = new ArrayList<Agv>(); //contains 4 agv
+	private ArrayList<Containers> containers = new ArrayList<Containers>(); //contains list of jobs
+	
+	//work lists 
+	private ArrayList<Containers> q_yc1 = new ArrayList<>();
+	private ArrayList<Containers> q_yc2 = new ArrayList<>();
+	private ArrayList<Containers> q_yc3 = new ArrayList<>();
+	private ArrayList<Containers> q_yc4 = new ArrayList<>();
+	private ArrayList<Containers> q_qc_unload = new ArrayList<>();
+	
+	
+	
+	public Draft_greedy(){
+		//BFS, distance depneds on the distance from the pick up location to agv 
+		
+		
+	}
+}

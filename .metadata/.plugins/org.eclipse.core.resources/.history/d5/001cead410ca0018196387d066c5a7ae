@@ -1,0 +1,18 @@
+package fyp_algo;
+import fyp_algo.Constants.*;
+
+public class Cranes {
+	private final int y;
+	private final int x;
+	private String craneType;
+	private boolean loading;
+	private boolean unloading;
+	
+	public Cranes(int y, int x, String craneType){
+		this.y = y;
+		this.x = x;
+		this.craneType = craneType;
+		if(craneType.equals())
+	}
+
+}

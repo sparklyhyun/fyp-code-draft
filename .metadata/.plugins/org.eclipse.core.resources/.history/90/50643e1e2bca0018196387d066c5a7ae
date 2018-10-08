@@ -1,0 +1,250 @@
+package fyp_algo;
+
+import java.util.ArrayList;
+
+import fyp_algo.Constants.*;
+
+public class Main_test {
+	public static Agv agv1, agv2, agv3, agv4;
+	public static ArrayList<Containers> containers = new ArrayList<>();	//main list of containers, priority queue
+	public static Cranes yc1, yc2, yc3, yc4, qc_load, qc_unload;
+	
+	//list of containers starting from each control point 
+	public static ArrayList<Containers> q_yc1 = new ArrayList<>();
+	public static ArrayList<Containers> q_yc2 = new ArrayList<>();
+	public static ArrayList<Containers> q_yc3 = new ArrayList<>();
+	public static ArrayList<Containers> q_yc4 = new ArrayList<>();
+	public static ArrayList<Containers> q_qc_unload = new ArrayList<>();
+	
+	//list of idle agv (can be changed anytime)
+	public static ArrayList<Agv> idleAgv = new ArrayList<>();
+	
+	public static int containerNo = 50; //number of containers for now
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// initialize agv
+		agv1 = new Agv(1);
+		agv2 = new Agv(2);
+		agv3 = new Agv(3);
+		agv4 = new Agv(4);
+		System.out.println("agv1 position, y: " + agv1.getAgvy() + " x: " + agv1.getAgvx() + " point: " + agv1.getCtrlPt());
+		System.out.println("agv2 position, y: " + agv2.getAgvy() + " x: " + agv2.getAgvx() + " point: " + agv2.getCtrlPt());
+		System.out.println("agv3 position, y: " + agv3.getAgvy() + " x: " + agv3.getAgvx() + " point: " + agv3.getCtrlPt());
+		System.out.println("agv4 position, y: " + agv4.getAgvy() + " x: " + agv4.getAgvx() + " point: " + agv4.getCtrlPt());
+		
+		
+		//put agvs in the idle queue
+		idleAgv.add(agv1);
+		idleAgv.add(agv2);
+		idleAgv.add(agv3);
+		idleAgv.add(agv4);
+
+		//generate containers and put in the containers queue
+		for(int i=0; i<containerNo; i++){
+			containers.add(new Containers(i));
+		}
+		
+		//initialize the cranes 
+		yc1 = new Cranes(1, 0,"YC1");
+		yc2 = new Cranes(1, 1, "YC2");
+		yc3 = new Cranes(1, 2, "YC3");
+		yc4 = new Cranes(1, 3,"YC4");
+		qc_load = new Cranes(0, 2, "QC_LOAD");
+		qc_unload = new Cranes(0, 0, "QC_UNLOAD");
+		
+		System.out.println("yc1 type:" + yc1.getCraneType());
+		System.out.println("yc2 type:" + yc2.getCraneType());
+		System.out.println("yc3 type:" + yc3.getCraneType());
+		System.out.println("yc4 type:" + yc4.getCraneType());
+		System.out.println("qc_load type:" + qc_load.getCraneType());
+		System.out.println("qc_unload type:" + qc_unload.getCraneType());
+		
+		
+		//iterate through containers, put the containers into correct queues
+		distribute_containers();
+		
+		System.out.print("yc1 q: ");
+		queue_print(q_yc1);
+		System.out.print("\nyc2 q: ");
+		queue_print(q_yc2);
+		System.out.print("\nyc3 q: ");
+		queue_print(q_yc3);
+		System.out.print("\nyc4 q: ");
+		queue_print(q_yc4);
+		System.out.print("\nunloading q: ");
+		queue_print(q_qc_unload);
+		
+
+		
+		/*
+		 * 1. start with agv idle list, the one first in line  
+		 * 
+		 */
+		
+
+	}
+	
+	
+	public static void distribute_containers(){
+		for(int i=0; i<containers.size(); i++){
+			int pickUpx = containers.get(i).getPickUpx();
+			int pickUpy = containers.get(i).getPickUpy();
+			if(pickUpy == 0){
+				q_qc_unload.add(containers.get(i));
+			}else{
+				switch(pickUpx){
+				case 0: q_yc1.add(containers.get(i)); break;
+				case 1: q_yc2.add(containers.get(i)); break;
+				case 2: q_yc3.add(containers.get(i)); break;
+				case 3: q_yc4.add(containers.get(i)); break;
+				default: break;
+				}
+			}
+		}
+	}
+	
+	public static void queue_print(ArrayList<Containers> c){
+		for(int i=0; i<c.size(); i++){
+			System.out.print(c.get(i).getCtype() + " " + c.get(i).getIndex() + " " + c.get(i).getPickUpx() + ", ");
+		}
+	}
+	
+	public static void findNearest(Agv agv){
+		//CRANETYPE = {"YC1", "YC2", "YC3", "YC4", "QC_LOAD", "QC_UNLOAD"}
+		/* ctrol point yc1 - check yc1 first, if queue not empty. then others - queue not empty && no one on that index
+		 * 
+		 * 
+		 * */
+		String c = agv.getCtrlPt();
+		switch(c){
+		case "YC1": checkYC1(agv); break;
+		case "YC2": checkYC2(agv); break;
+		case "YC3": checkYC3(agv); break;
+		case "YC4": checkYC4(agv); break;
+		case "QC_LOAD": checkQCLoad(agv); break;
+		case "QC_UNLOAD": checkQCUnload(agv); break;
+		default: checkNull(agv); break;
+		}
+	}
+	
+	public static void checkYC1(Agv agv){
+		if(q_yc1.isEmpty() == false){
+			//get container, remove container, store drop off point 
+			//check if the drop off point is occpied. 
+				//if occupied, wait.
+				//else, remove from idle queue, update coordinates to drop off point, add to back of the idle queue
+			}else if(q_yc2.isEmpty() == false){
+				
+			}else if(q_yc3.isEmpty() == false){
+				
+			}else if(q_yc4.isEmpty() == false){
+				
+			}else if(q_qc_unload.isEmpty() == false){
+				
+			}
+	}
+	
+	public static void checkYC2(Agv agv){
+		if(q_yc2.isEmpty() == false){
+			//get container, remove container, store drop off point 
+			//check if the drop off point is occpied. 
+				//if occupied, wait.
+				//else, remove from idle queue, update coordinates to drop off point, add to back of the idle queue
+			}else if(q_yc3.isEmpty() == false){
+				
+			}else if(q_yc4.isEmpty() == false){
+				
+			}else if(q_qc_unload.isEmpty() == false){
+				
+			}else if(q_yc1.isEmpty() == false){
+				
+			}
+	}
+	
+	public static void checkYC3(Agv agv){
+		if(q_yc3.isEmpty() == false){
+			//get container, remove container, store drop off point 
+			//check if the drop off point is occpied. 
+				//if occupied, wait.
+				//else, remove from idle queue, update coordinates to drop off point, add to back of the idle queue
+			}else if(q_yc2.isEmpty() == false){
+				
+			}else if(q_yc3.isEmpty() == false){
+				
+			}else if(q_yc4.isEmpty() == false){
+				
+			}else if(q_qc_unload.isEmpty() == false){
+				
+			}
+	}
+	
+	public static void checkYC4(Agv agv){
+		if(q_yc1.isEmpty() == false){
+			//get container, remove container, store drop off point 
+			//check if the drop off point is occpied. 
+				//if occupied, wait.
+				//else, remove from idle queue, update coordinates to drop off point, add to back of the idle queue
+			}else if(q_yc2.isEmpty() == false){
+				
+			}else if(q_yc3.isEmpty() == false){
+				
+			}else if(q_yc4.isEmpty() == false){
+				
+			}else if(q_qc_unload.isEmpty() == false){
+				
+			}
+	}
+	
+	public static void checkQCLoad(Agv agv){
+		if(q_yc1.isEmpty() == false){
+			//get container, remove container, store drop off point 
+			//check if the drop off point is occpied. 
+				//if occupied, wait.
+				//else, remove from idle queue, update coordinates to drop off point, add to back of the idle queue
+			}else if(q_yc2.isEmpty() == false){
+				
+			}else if(q_yc3.isEmpty() == false){
+				
+			}else if(q_yc4.isEmpty() == false){
+				
+			}else if(q_qc_unload.isEmpty() == false){
+				
+			}
+	}
+	
+	public static void checkQCUnload(Agv agv){
+		if(q_yc1.isEmpty() == false){
+			//get container, remove container, store drop off point 
+			//check if the drop off point is occpied. 
+				//if occupied, wait.
+				//else, remove from idle queue, update coordinates to drop off point, add to back of the idle queue
+			}else if(q_yc2.isEmpty() == false){
+				
+			}else if(q_yc3.isEmpty() == false){
+				
+			}else if(q_yc4.isEmpty() == false){
+				
+			}else if(q_qc_unload.isEmpty() == false){
+				
+			}
+	}
+	
+	public static void checkNull(Agv agv){
+		if(q_yc1.isEmpty() == false){
+			//get container, remove container, store drop off point 
+			//check if the drop off point is occpied. 
+				//if occupied, wait.
+				//else, remove from idle queue, update coordinates to drop off point, add to back of the idle queue
+			}else if(q_yc2.isEmpty() == false){
+				
+			}else if(q_yc3.isEmpty() == false){
+				
+			}else if(q_yc4.isEmpty() == false){
+				
+			}else if(q_qc_unload.isEmpty() == false){
+				
+			}
+	}
+
+}

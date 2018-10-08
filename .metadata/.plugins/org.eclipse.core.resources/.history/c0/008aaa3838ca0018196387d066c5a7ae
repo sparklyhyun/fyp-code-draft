@@ -1,0 +1,26 @@
+package fyp_algo;
+
+import java.util.ArrayList;
+import java.util.Random;
+import fyp_algo.Constants.*;
+
+public class Greedy {
+
+	private ArrayList<Agv> idleAgv;
+	private ArrayList<Containers> containers;
+	private ArrayList<Containers> q_yc1, q_yc2, q_yc3, q_yc4, q_qc_unload;
+	
+	public Greedy(ArrayList<Agv> idleAgv, ArrayList<Containers> containers, ArrayList<Containers> q_yc1,
+			ArrayList<Containers> q_yc2, ArrayList<Containers> q_yc3, ArrayList<Containers> q_yc4, 
+			ArrayList<Containers> q_qc_unload)
+	{
+		this.idleAgv = idleAgv;
+		this.containers = containers;
+		this.q_yc1 = q_yc1;
+		this.q_yc2 = q_yc2;
+		this.q_yc3 = q_yc3;
+		this.q_yc4 = q_yc4;
+	}
+	
+	
+}

@@ -1,0 +1,10 @@
+package fyp_algo;
+
+import java.util.ArrayList;
+
+public class Greedy {
+
+	private ArrayList<Agv> idleAgv;
+	
+	
+}

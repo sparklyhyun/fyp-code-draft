@@ -1,0 +1,111 @@
+package fyp_algo;
+import java.util.ArrayList;
+import java.util.Random;
+
+import fyp_algo.Constants.*;
+
+public class Agv {
+	private int agv_num;	//index of agv
+	private int agv_X;
+	private int agv_Y;
+	//private CONTROL_PTS agv_pos;	//position of agv - which control point is it at?
+	private boolean idle = true; 
+	
+	private ArrayList<Containers> agv_tasks = new ArrayList<>();	//list of jobs 
+	
+	public Agv(int agv_num){
+		this.agv_num = agv_num;
+		initPos();
+	}
+	
+	private void initPos(){
+		//generate initial pos (random among all the control points) 
+		Random rand = new Random();
+		int min = 0;
+		int randomPosX = rand.nextInt(Constants.MAX_X);
+		int randomPosY = rand.nextInt(Constants.MAX_Y);
+		if(Constants.AGV_POS[randomPosY][randomPosX] == 0){
+			Constants.AGV_POS[randomPosY][randomPosX] = 1;
+			this.agv_Y = randomPosY;
+			this.agv_X = randomPosX;
+			return;
+		}else{
+			initPos();	//calculate random again
+		}
+	}
+	
+	/*
+	private CONTROL_PTS index_ctrl_pt(int x){
+		switch(x){
+		case 0: return CONTROL_PTS.YC1;
+		case 1: return CONTROL_PTS.YC2;
+		case 2: return CONTROL_PTS.YC3;
+		case 3: return CONTROL_PTS.YC4;
+		case 4: return CONTROL_PTS.QC_LOAD;
+		case 5: return CONTROL_PTS.QC_UNLOAD;
+		default: return CONTROL_PTS.YC1; //default value 
+		}
+	}*/
+	
+	public void setAgvx(int x){
+		this.agv_X = x;
+	}
+	
+	public void setAgvy(int y){
+		this.agv_Y = y;
+	}
+	
+	public void setIdle(boolean idle){
+		this.idle = idle;
+	}
+	
+	public int getAgvNum(){
+		return this.agv_num;
+	}
+	
+	public int getAgvx(){
+		return this.agv_X;
+	}
+	public int getAgvy(){
+		return this.agv_Y;
+	}
+	
+	public boolean getIdle(){
+		return idle;
+	}
+
+	/*
+	public boolean isTopRow(){
+		if((this.agv_pos == CONTROL_PTS.QC_LOAD) || (this.agv_pos ==  CONTROL_PTS.QC_UNLOAD)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
+	public int computeDist(Containers c){
+		//compute dist btw Container & this.agv_pos 
+		int distance = 0;
+		CONTROL_PTS c_pos = c.getPickUp();
+		if(c_pos == this.agv_pos){
+			return 0;
+		}else{
+			//next move, distance + 1
+		}
+		
+	}
+	
+	public void nextPos(CONTROL_PTS p){
+		
+	}
+	*/
+
+	/*
+	public int innerComputeDist(Constants.CONTROL_PTS a, Constants.CONTROL_PTS c){
+		//agv must travel to container from its original position
+		
+	}*/
+	
+
+}
