@@ -105,6 +105,13 @@ public class Agv {
 		total_cost += x; 
 	}
 	
+	public void updateTotalCostReal(int x){
+		total_cost += x;
+	}
+	
+	public void resetTotalCostReal(){
+		total_cost = 0;
+	}
 	public void setCtrlPt(int y, int x){
 		//CRANETYPE = {"YC1", "YC2", "YC3", "YC4", "QC_LOAD", "QC_UNLOAD"}
 		if(y == 0){

@@ -75,20 +75,44 @@ public class Draft_greedy {
 		
 		//2.
 		//real-time scheduling of tasks to agvs 
+		Agv idleAgv[] = new Agv[2];	//index 0 - previous idle, index 1 - current
+		Agv dummy = new Agv(5);
+		idleAgv[0] = dummy;		//initialize
 		while(!q_priority.isEmpty()){
 			Containers c = q_priority.poll();
 			Cranes pickup = c.getPickUpPoint(); 
-			
+		
 			//wait for an agv to go idle
 			while(true){
-				if(agv1.getIdle() || agv2.getIdle() || agv3.getIdle()|| agv4.getIdle()) break;
+				if(agv1.getIdle() || agv2.getIdle() || agv3.getIdle()|| agv4.getIdle()){
+					if(agv1.getIdle()){
+						idleAgv[1] = agv1;
+					}else if(agv2.getIdle()){
+						idleAgv[1] = agv2;
+					}else if(agv3.getIdle()){
+						idleAgv[1] = agv3;
+					}else if(agv4.getIdle()){
+						idleAgv[1] = agv4;
+					}
+					break;
+				} 
+			}
+			
+			//if one agv continues to be idle, store the distance left until new agv becomes idle 
+			//else, reset the total cost 
+			if(idleAgv[0].getAgvNum() != idleAgv[1].getAgvNum()){	
+				agv1.resetTotalCostReal();
+				agv2.resetTotalCostReal();
+				agv3.resetTotalCostReal();
+				agv4.resetTotalCostReal();
 			}
 			
 			int minIndex = 0;	 //index of agv with min travel time to next pickup  
 			int minValue = 0;
 			for(int j=0; j<4; j++){
 				Agv agv = agv_list.get(j);
-				agv_travel_time[j] = calculateTravelTime_Real(agv, pickup); 
+				agv_travel_time[j] = calculateTravelTime_Real(agv, pickup) + agv.getDistLeft(); 
+				//agv.getDistLeft = distance(travel time) left until current drop off
 			}
 			
 			//simple comparison of travel time 
@@ -99,9 +123,8 @@ public class Draft_greedy {
 				}
 			}
 			
-			
 			agv_list.get(minIndex).getTaskList().add(c);		//add the task into the task list of the nearest agv
-			agv_list.get(minIndex).updateTotalCost(minValue);	//update the total travel time of the agv (until this task)
+			agv_list.get(minIndex).updateTotalCostReal(minValue);	//update the total travel time of the agv 
 			pickup.getPriorityQueue().remove(c);				//remove the task from local priority list (priority list of individual pick up points)
 			
 		}
@@ -116,8 +139,7 @@ public class Draft_greedy {
 	}
 	
 	public int calculateTravelTime_Real(Agv agv, Cranes pickUp){
-		//calculate the travel time in real time, called once an agv goes idle 
-		//agv.getDistLeft = distance(travel time) left until current drop off 
-		int travelTime = agv.getDistLeft() + agv.getTravelTime(pickUp);
+		//calculate the travel time in real time, called once an agv goes idle  
+		int travelTime = agv.getTotalCostReal() + agv.getTravelTime(pickUp);
 	}
 }
